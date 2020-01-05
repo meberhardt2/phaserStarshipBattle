@@ -1,43 +1,42 @@
 import { Entity } from '../entities/entity';
 
-
 /**************************************************************************************/
 export class Player extends Entity{
 
 	/************************************************/
 	constructor(scene, x, y, key, type) {
-		super(scene, x, y, key, "Player");
+		super(scene, x, y, key, 'Player');
 
-		this.setData("speed", 200);
-		this.play("sprPlayer");
+		this.setData('speed', 200);
+		this.play('sprPlayer');
 	}
 	/************************************************/
 
 
 	/************************************************/
 	moveUp() {
-		this.body.velocity.y = -this.getData("speed");
+		this.body.velocity.y = -this.getData('speed');
 	}
 	/************************************************/
 
 
 	/************************************************/
 	moveDown() {
-		this.body.velocity.y = this.getData("speed");
+		this.body.velocity.y = this.getData('speed');
 	}
 	/************************************************/
 
 
 	/************************************************/
 	moveLeft() {
-		this.body.velocity.x = -this.getData("speed");
+		this.body.velocity.x = -this.getData('speed');
 	}
 	/************************************************/
 
 
 	/************************************************/
 	moveRight() {
-		this.body.velocity.x = this.getData("speed");
+		this.body.velocity.x = this.getData('speed');
 	}
 	/************************************************/
 
