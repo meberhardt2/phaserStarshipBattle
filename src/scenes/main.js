@@ -1,5 +1,7 @@
 import { Player } from '../entities/player';
 import { GunShip1 } from '../entities/gunship1';
+import { ChaserShip1 } from '../entities/chasership1';
+import { CarrierShip1 } from '../entities/carriership1';
 
 /**************************************************************************************/
 export class SceneMain extends Phaser.Scene {
@@ -67,18 +69,43 @@ export class SceneMain extends Phaser.Scene {
 		this.playerLasers = this.add.group();
 
 		this.time.addEvent({
-			delay: 100,
+			delay: 1000,
 			callback: function() {
-				var enemy = new GunShip1(
-					this,
-					Phaser.Math.Between(0, this.game.config.width),
+				var enemy = null;
+
+				if (Phaser.Math.Between(0, 10) >= 3) {
+					enemy = new GunShip1(
+						this,
+						Phaser.Math.Between(0, this.game.config.width),
 					0
-				);
-				this.enemies.add(enemy);
+					);
+				}
+				else if (Phaser.Math.Between(0, 10) >= 5) {
+					//checking how many chaser ships there are
+					if (this.getEnemiesByType("ChaserShip").length < 5) {
+						enemy = new ChaserShip1(
+							this,
+							Phaser.Math.Between(0, this.game.config.width),
+							0
+						);
+					}
+				}
+				else {
+					enemy = new CarrierShip1(
+						this,
+						Phaser.Math.Between(0, this.game.config.width),
+						0
+					);
+				}
+
+				if (enemy !== null) {
+					enemy.setScale(Phaser.Math.Between(10, 20) * 0.1);
+					this.enemies.add(enemy);
+				}
 			},
 			callbackScope: this,
 			loop: false,
-			repeat:5
+			repeat: 20
 		});
 	}
 	/************************************************/
@@ -100,6 +127,11 @@ export class SceneMain extends Phaser.Scene {
 		}
 		else if (this.keyD.isDown) {
 			this.player.moveRight();
+		}
+
+		for (var i = 0; i < this.enemies.getChildren().length; i++) {
+			var enemy = this.enemies.getChildren()[i];
+			enemy.update();
 		}
 	}
 	/************************************************/
@@ -147,5 +179,21 @@ export class SceneMain extends Phaser.Scene {
 	}
 	/************************************************/
 
+
+	/************************************************/
+	getEnemiesByType(type){
+		var arr = [];
+
+		for (var i = 0; i < this.enemies.getChildren().length; i++) {
+			var enemy = this.enemies.getChildren()[i];
+
+			if (enemy.getData("type") == type) {
+				arr.push(enemy);
+			}
+		}
+
+		return arr;	  
+	}
+	/************************************************/
 };
 /**************************************************************************************/
