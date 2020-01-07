@@ -1,4 +1,5 @@
 import { Entity } from '../entities/entity';
+import { LaserPlayer } from '../weapons/laser_player';
 
 /**************************************************************************************/
 export class Player extends Entity{
@@ -9,6 +10,10 @@ export class Player extends Entity{
 
 		this.setData('speed', 200);
 		this.play('sprPlayer');
+
+		this.setData("isShooting", false);
+		this.setData("timerShootDelay", 10);
+		this.setData("timerShootTick", this.getData("timerShootDelay") - 1);
 	}
 	/************************************************/
 
@@ -47,6 +52,19 @@ export class Player extends Entity{
 
 		this.x = Phaser.Math.Clamp(this.x, 0, this.scene.game.config.width);
 		this.y = Phaser.Math.Clamp(this.y, 0, this.scene.game.config.height);
+
+		if (this.getData("isShooting")) {
+			if (this.getData("timerShootTick") < this.getData("timerShootDelay")) {
+				this.setData("timerShootTick", this.getData("timerShootTick") + 1); // every game update, increase timerShootTick by one until we reach the value of timerShootDelay
+			}
+			else { // when the "manual timer" is triggered:
+				var laser = new LaserPlayer(this.scene, this.x, this.y);
+				this.scene.playerLasers.add(laser);
+
+				this.scene.sfx.laser.play(); // play the laser sound effect
+				this.setData("timerShootTick", 0);
+			}
+		}
 	}
 	/************************************************/
 

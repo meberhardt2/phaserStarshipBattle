@@ -1,11 +1,11 @@
 import { Weapon } from '../weapons/weapon';
 
 /**************************************************************************************/
-export class LaserEnemy extends Weapon {
+export class LaserPlayer extends Weapon {
 	constructor(scene, x, y) {
-		super(scene, x, y, "sprLaserEnemy0");
+		super(scene, x, y, "sprLaserPlayer");
 		
-		this.body.velocity.y = 200;				//moves the lasers down
+		this.body.velocity.y = -200;			//moves the lasers up
 	}
 }
 /**************************************************************************************/
