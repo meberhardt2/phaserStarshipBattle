@@ -85,6 +85,7 @@ export class SceneMain extends Phaser.Scene {
 			if (!player.getData("isDead") &&
 				!enemy.getData("isDead")) {
 				player.explode(false);
+				player.onDestroy();
 				enemy.explode(true);
 			}
 		});
@@ -93,6 +94,7 @@ export class SceneMain extends Phaser.Scene {
 		this.physics.add.overlap(this.player, this.enemyLasers, function(player, laser) {
 			if (!player.getData("isDead") && !laser.getData("isDead")) {
 				player.explode(false);
+				player.onDestroy();
 				laser.destroy();
 			}
 		});
@@ -107,7 +109,7 @@ export class SceneMain extends Phaser.Scene {
 					enemy = new GunShip1(
 						this,
 						Phaser.Math.Between(0, this.game.config.width),
-					0
+						0
 					);
 				}
 				else if (Phaser.Math.Between(0, 10) >= 5) {
