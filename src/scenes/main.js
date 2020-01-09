@@ -50,18 +50,25 @@ export class SceneMain extends Phaser.Scene {
 	create(){
 		this.animations();
 		this.soundEffects();
-
+console.log(this.game.config.height * 0.5 - 150);
+		this.cameras.main.setViewport((this.game.config.width * 0.5) - 200, (this.game.config.height * 0.5) - 150, 400, 300);
+		this.cameras.main.setBackgroundColor(0xbababa);
+		
 		this.player = new Player(
 			this,
-			this.game.config.width * 0.5,
-			this.game.config.height * 0.5,
+			this.game.config.width * 0.5 - 300,
+			this.game.config.height * 0.5 - 250,
 			"sprPlayer"
 		);
 
 		this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 		this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+		this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 		this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+		this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
 		this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+		this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 		this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 		this.enemies = this.add.group();
@@ -74,7 +81,6 @@ export class SceneMain extends Phaser.Scene {
 				if (enemy.onDestroy !== undefined) {
 					enemy.onDestroy();
 				}
-				console.log(enemy);
 				enemy.explode(true);
 				playerLaser.destroy();
 			}
@@ -99,7 +105,7 @@ export class SceneMain extends Phaser.Scene {
 			}
 		});
 
-		
+		/*
 		this.time.addEvent({
 			delay: 1000,
 			callback: function() {
@@ -139,26 +145,28 @@ export class SceneMain extends Phaser.Scene {
 			loop: false,
 			repeat: 20
 		});
+		*/
 	}
 	/************************************************/
 
 
 	/************************************************/
 	update(){
+		this.cameras.main.setPosition(150,150);
 		if (!this.player.getData("isDead")) {
 			this.player.update();
 			
-			if(this.keyW.isDown){
+			if(this.keyW.isDown || this.keyUp.isDown){
 				this.player.moveUp();
 			}
-			else if(this.keyS.isDown){
+			else if(this.keyS.isDown || this.keyDown.isDown){
 				this.player.moveDown();
 			}
 
-			if(this.keyA.isDown){
+			if(this.keyA.isDown || this.keyLeft.isDown){
 				this.player.moveLeft();
 			}
-			else if(this.keyD.isDown){
+			else if(this.keyD.isDown || this.keyRight.isDown){
 				this.player.moveRight();
 			}
 

@@ -1,8 +1,8 @@
 /**************************************************************************************/
 export const Config = {
 	type: Phaser.AUTO,
-	width: 480,
-	height: 640,
+	width: 1000,
+	height: 800,
 	backgroundColor: "black",
 	physics: {
 		default: "arcade",
